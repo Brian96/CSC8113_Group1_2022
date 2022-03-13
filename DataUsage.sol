@@ -9,4 +9,13 @@ contract DataUsage {
         string operation;
         string[] data;
     }
+    mapping(string => actorInfo) actors;
+
+    function setActor(actorInfo memory actor) public {
+        actors[actor.actorId] = actor;
+    }
+
+    function getActor(string memory actorId) public view returns (actorInfo memory actor) {
+        return actors[actorId];
+    }
 }
