@@ -2,5 +2,10 @@
 pragma solidity 0.8.12;
 
 contract Agreement {
-    mapping(string => bool) public userConsent;
+    mapping(uint => bool) public userConsent;
+    struct agreementInfo{
+        uint256 hashAddr;
+        uint userId;
+        uint consent;
+    }
 }

@@ -3,19 +3,19 @@ pragma solidity 0.8.12;
 
 contract DataUsage {
     struct actorInfo {
-        string actorId;
+        uint actorId;
         string serviceName;
         string purpose;
         string operation;
         string[] data;
     }
-    mapping(string => actorInfo) actors;
+    mapping(uint => actorInfo) actors;
 
     function setActor(actorInfo memory actor) public {
         actors[actor.actorId] = actor;
     }
 
-    function getActor(string memory actorId) public view returns (actorInfo memory actor) {
+    function getActor(uint actorId) public view returns (actorInfo memory actor) {
         return actors[actorId];
     }
 }
