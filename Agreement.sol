@@ -8,4 +8,12 @@ contract Agreement {
         uint userId;
         uint consent;
     }
+    mapping(uint => agreementInfo) agreements;
+
+    function setAgreement(agreementInfo memory agreement) public {
+        agreements[agreement.userId] = agreement;
+    }
+    function getAgreement(uint userId) public view returns (agreementInfo memory agreement){
+        return agreements[userId];
+    }
 }
