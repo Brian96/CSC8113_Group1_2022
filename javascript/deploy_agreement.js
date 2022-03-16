@@ -4,7 +4,7 @@
         const contractName = 'Agreement'
         const constructorArgs = []
 
-        const artifactsPath = `browser/contracts/artifacts/${contractName}.json`
+        const artifactsPath = `../artifacts/${contractName}.json`
 
         const metadata = JSON.parse(await remix.call('fileManager', 'getFile', artifactsPath))
         const accounts = await web3.eth.getAccounts()
