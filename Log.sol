@@ -5,11 +5,11 @@ contract Log {
     struct logInfo{
         uint actorId;
         string operation;
-        string[3] data;
+        string[4] data;
         string serviceName;
     }
     mapping(uint => logInfo) logs;
-    function setLog(uint actorId, string memory operation, string[3] memory data, string memory serviceName) public{
+    function setLog(uint actorId, string memory operation, string[4] memory data, string memory serviceName) public{
         logInfo memory log;
         log.actorId = actorId;
         log.operation = operation;

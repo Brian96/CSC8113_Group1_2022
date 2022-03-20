@@ -9,7 +9,7 @@ contract Simulator {
     Agreement dataSubject;
     constructor() {
         actor = new DataUsage();
-        actor.setActor(1, "test", "advertisement", "", ["verified successfully", "verified failed", "not clear"]);
+        actor.setActor(1, "test", "advertisement", "", ["Billy Bob", "01-01-1960", "07878780002", "Newcastle upon Tyne"]);
         dataSubject = new Agreement();
         dataSubject.setAgreement(2, true);
         bool consent = dataSubject.getAgreement(2);

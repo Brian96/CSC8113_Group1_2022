@@ -7,12 +7,12 @@ contract DataUsage {
         string serviceName;
         string purpose;
         string operation;
-        string[3] data;
+        string[4] data;
     }
 
     mapping(uint => actorInfo) actors;
 
-    function setActor(uint actorId, string memory sName, string memory purpose, string memory op, string[3] memory data) public {
+    function setActor(uint actorId, string memory sName, string memory purpose, string memory op, string[4] memory data) public {
         actorInfo memory actor;
         actor.actorId = actorId;
         actor.serviceName = sName;
