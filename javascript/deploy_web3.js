@@ -3,7 +3,7 @@
     try {
         console.log('Running deployWithWeb3 script...')
         
-        const contractName = 'Agreement' // Change this for other contract
+        const contractName = 'Simulator' // Change this for other contract
         const constructorArgs = []    // Put constructor args (if any) here for your contract
     
         // Note that the script needs the ABI which is generated from the compilation artifact.
@@ -19,18 +19,6 @@
             data: metadata.data.bytecode.object,
             arguments: constructorArgs
         })
-    
-        const newContractInstance = await contract.send({
-            from: accounts[0]
-        });
-        newContractInstance.methods.submitConsent({userId: 1, consent: 1}).send({
-            from: accounts[0]
-        }).then((event) => {
-            event.watch(function(error, result){
-                if (!error)
-                    console.log(result);
-            });
-        });
         console.log('Contract deployed at address: ', newContractInstance.options.address);
     } catch (e) {
         console.log(e.message)

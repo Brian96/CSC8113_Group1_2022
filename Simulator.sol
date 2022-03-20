@@ -10,6 +10,7 @@ contract Simulator {
     constructor() {
         actor = new DataUsage();
         actor.setActor(1, "test", "advertisement", "", ["verified successfully", "verified failed", "not clear"]);
+        dataSubject = new Agreement();
         dataSubject.setAgreement(2, true);
         actor.updateActorOperation(1, "read");
         actor.updateActorOperation(2, "share");
