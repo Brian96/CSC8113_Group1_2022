@@ -12,7 +12,10 @@ contract Simulator {
         actor.setActor(1, "test", "advertisement", "", ["verified successfully", "verified failed", "not clear"]);
         dataSubject = new Agreement();
         dataSubject.setAgreement(2, true);
-        actor.updateActorOperation(1, "read");
-        actor.updateActorOperation(2, "share");
+        bool consent = dataSubject.getAgreement(2);
+        if(consent) {
+            actor.updateActorOperation(1, "read");
+            actor.updateActorOperation(2, "share");
+        }
     }
 }
