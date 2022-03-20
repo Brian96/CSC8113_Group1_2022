@@ -1,32 +1,30 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.12;
+pragma solidity >=0.7.0 <0.9.0;
 
 contract DataUsage {
-    struct actorInfo {
+    struct actorInfo { 
         uint actorId;
         string serviceName;
         string purpose;
         string operation;
-        string[] data;
+        string[3] data;
     }
-
-    event DataCollection(
-        address indexed from,
-        actorInfo info
-    );
 
     mapping(uint => actorInfo) actors;
 
-    function setActor(actorInfo memory actor) private {
-        actors[actor.actorId] = actor;
+    function setActor(uint actorId, string memory sName, string memory purpose, string memory op, string[3] memory data) public {
+        actorInfo memory actor;
+        actor.actorId = actorId;
+        actor.serviceName = sName;
+        actor.purpose = purpose;
+        actor.operation = op;
+        actor.data = data;
+        actors[actorId] = actor;
     }
-
-    function getActor(uint actorId) public view returns (actorInfo memory actor) {
-        return actors[actorId];
+    function updateActorOperation(uint actorId, string memory op) public {
+        actors[actorId].operation = string(abi.encodePacked(actors[actorId].operation, op));
     }
-
-    function submitPurpose(actorInfo memory actor) external {
-        actors[actor.actorId] = actor;
-        emit DataCollection(msg.sender, actors[actor.actorId]);
+    function getActorPurpose(uint actorId) public view returns (string memory purpose) {
+        return actors[actorId].purpose;
     }
 }
