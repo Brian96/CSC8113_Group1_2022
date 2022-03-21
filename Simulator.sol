@@ -7,7 +7,10 @@ import "./Agreement.sol";
 contract Simulator {
     DataUsage actor;
     Agreement dataSubject;
+    uint u0;
+    uint u1;
     constructor() {
+        u0 = gasleft();
         actor = new DataUsage();
         actor.setActor(1, "test", "advertisement", "", ["Billy Bob", "01-01-1960", "07878780002", "Newcastle upon Tyne"]);
         dataSubject = new Agreement();
@@ -17,5 +20,15 @@ contract Simulator {
             actor.updateActorOperation(1, "read");
             actor.updateActorOperation(2, "share");
         }
+
+
+        u1 = gasleft();
     }
+
+    function getGasCost() public view returns (uint gas){
+        uint res = u0-u1;
+        return res;
+    }
+
+    
 }
