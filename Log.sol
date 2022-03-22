@@ -19,7 +19,11 @@ contract Log {
     }
 
     function getLog(uint actorId) public view returns (logInfo memory log){
-        return logs[actorId];
+        for(uint i = 0; i < logs.length; i++){
+            if(logs[i].actorId == actorId){
+                return logs[i];
+            }
+        }
     }
     
     function updateLog(uint actorId, string memory operation) public {

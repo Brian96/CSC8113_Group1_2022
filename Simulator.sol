@@ -8,17 +8,23 @@ import "./Verification.sol";
 
 contract Simulator {
 
-    DataUsage actors;
+    DataUsage [] actors;
     Agreement dataSubject;
     Log logs;
-    mapping(uint => address) actorAddresses;
+    
     uint u0;
     uint u1;
+
+    mapping(uint => address) actorAddresses;
+    mapping(uint => address) userAddresses;
+    mapping(uint => address) logAddresses;
     constructor() {
         u0 = gasleft();
-        actors = DataUsage(0xd9145CCE52D386f254917e481eB44e9943F39138);
-        actorAddresses[1] = 0xd9145CCE52D386f254917e481eB44e9943F39138;
-        actorCount1();
+        
+        actorAddresses[1] = 0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8;
+        userAddresses[1] = 0xd9145CCE52D386f254917e481eB44e9943F39138;
+        logAddresses[1] = 0xf8e81D47203A594245E36C48e151709F0C19fBe8;
+        actorCount(1);
 
         //actorCount2();
         //actorCount3();
@@ -27,31 +33,40 @@ contract Simulator {
         u1 = gasleft();
     }
 
-    function actorCount1() private{
-        actors.setActor(1, "test", "advertisement", "read", ["name", "address", "1", "2"]);
-        dataSubject = Agreement(0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8);
-        logs = Log(0xf8e81D47203A594245E36C48e151709F0C19fBe8);
-        dataSubject.setAgreement(0xd9145CCE52D386f254917e481eB44e9943F39138, "advertisement", true);
-
-
-        //bool consent = dataSubject.getAgreement(0xd9145CCE52D386f254917e481eB44e9943F39138, "advertisement");
-        bool consent = dataSubject.getAgreement(actorAddresses[actors.getDataUsageDetailByActorId(1)[0].actorId], actors.getDataUsageDetailByActorId(1)[0].purpose);
-        if(consent) {
-            logs.setLog(1, "read", ["name", "address", "1", "2"], "test");
+    function actorCount(uint maxActor) private{
+        maxActor++;
+        for (uint i = 1; i <= maxActor; i++){
+            actors.push(DataUsage(actorAddresses[1]));
+            actors[i-1].setActor(i, "test", "advertisement", "read", ["name", "address", "1", "3"]);
+            //actors[0].setActor();
         }
+        
+        
+        dataSubject = Agreement(userAddresses[1]);
+        logs = Log(logAddresses[1]);
 
-    }
+        for (uint i = 1; i < maxActor; i++){
+            if (i%2 ==1){
+                dataSubject.setAgreement(actorAddresses[i], "advertisement", true);
+            }
+            else{
+                dataSubject.setAgreement(actorAddresses[i], "advertisement", false);
+            }
+            
+        }
+        
 
-    function actorCount2() private{
-        //actors.setActor(1, "test1", "advertisement1", "", ["name", "address"]);
-        //actors.setActor(2, "test2", "advertisement2", "", ["name"]);
-        dataSubject = new Agreement();
-        //dataSubject.setAgreement(2, true);
-        //bool consent = dataSubject.getAgreement(2);
-        // if(consent) {
-        //     actors.updateActorOperation(1, "read");
-        //     actors.updateActorOperation(2, "share");
-        // }
+        for (uint i = 1; i <= maxActor; i++){
+            bool consent = dataSubject.getAgreement(actorAddresses[actors[i-1].getDataUsageDetailByActorId(1)[0].actorId], actors[i-1].getDataUsageDetailByActorId(1)[0].purpose);
+            if(consent) {
+                logs.setLog(i, "read", ["name", "address", "1", "2"], "test");
+            }
+        }
+        //bool consent = dataSubject.getAgreement(0xd9145CCE52D386f254917e481eB44e9943F39138, "advertisement");
+        
+
+
+
     }
 
     function getGasCost() public view returns (uint gas){
@@ -60,7 +75,7 @@ contract Simulator {
     }
 
     function printActor() public view returns (DataUsage du){
-        return actors;
+        return actors[0];
     }
 
     
