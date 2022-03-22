@@ -2,12 +2,14 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract Agreement {
-    mapping(uint => bool) public userConsent;
 
-    function setAgreement(uint userId, bool consent) public {
-        userConsent[userId] = consent;
+    mapping(address => mapping(string => bool)) public userConsent;
+    //mapping(string => bool) public userConsent; //String combination of actorid + purpose
+
+    function setAgreement(address actor, string memory purpose, bool consent) public {
+        userConsent[actor][purpose] = consent;
     }
-    function getAgreement(uint userId) public view returns (bool consent){
-        return userConsent[userId];
+    function getAgreement(address actor, string memory purpose) public view returns (bool consent){
+        return userConsent[actor][purpose];
     }
 }

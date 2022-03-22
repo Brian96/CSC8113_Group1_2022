@@ -2,7 +2,10 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract DataUsage {
-    struct actorInfo { 
+
+    uint myActorId;
+    
+    struct DataUsageDetail { 
         uint actorId;
         string serviceName;
         string purpose;
@@ -10,21 +13,32 @@ contract DataUsage {
         string[4] data;
     }
 
-    mapping(uint => actorInfo) actors;
+    mapping(uint => DataUsageDetail[]) dataUsageEntries;
 
     function setActor(uint actorId, string memory sName, string memory purpose, string memory op, string[4] memory data) public {
-        actorInfo memory actor;
+        DataUsageDetail memory actor;
         actor.actorId = actorId;
         actor.serviceName = sName;
         actor.purpose = purpose;
         actor.operation = op;
         actor.data = data;
-        actors[actorId] = actor;
+        dataUsageEntries[actorId].push(actor);
+        myActorId = actorId;
     }
-    function updateActorOperation(uint actorId, string memory op) public {
-        actors[actorId].operation = string(abi.encodePacked(actors[actorId].operation, op));
+
+    // function updateActorOperation(uint actorId, string memory sName, string memory op) public {
+    //     //require(dataUsageEntries[actorId].isValue, "Invalid actor Id");
+    //     for (uint i = 0; i < dataUsageEntries[actorId].length; i++){
+    //         if (StringUtils.equal(dataUsageEntries[actorId][i].serviceName, sName)){
+    //             dataUsageEntries[actorId][i].operation = op;
+    //         }
+    //     }
+    //     //dataUsageEntries[actorId+sName].operation = string(abi.encodePacked(dataUsageEntries[actorId].operation, op));
+    // }
+
+    function getDataUsageDetailByActorId(uint actorId) public view returns (DataUsageDetail[] memory details) {
+        return dataUsageEntries[actorId];
     }
-    function getActorPurpose(uint actorId) public view returns (string memory purpose) {
-        return actors[actorId].purpose;
-    }
+
+
 }
