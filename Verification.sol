@@ -7,7 +7,8 @@ import "./Log.sol";
 
 contract Verification {
 
-    uint [] violatedActors;
+    bool [] violatedActors;
+    uint [] vioList;
 
     DataUsage [] actors;
     Agreement dataSubject;
@@ -15,16 +16,28 @@ contract Verification {
 
 
     function validate() public{
-        violatedActors.push(1);
+        Log.logInfo [] memory totalLogs = logs.getLogs();
+        for(uint i = 0; i < totalLogs.length; i++){
+            Log.logInfo memory curLog = totalLogs[i];
+            bool cons = dataSubject.getAgreement(address(actors[curLog.actorId-1]), curLog.serviceName);
+            if (!cons){
+                if (violatedActors[curLog.actorId-1] != true){
+                    violatedActors[curLog.actorId-1] = true;
+                    vioList.push(curLog.actorId);
+                }
+                
+            }
+        }
     }
 
     function getViolatedActors() public view returns (uint[] memory res){
-        return violatedActors;
+        return vioList;
     }
 
     function setInputs(DataUsage[] memory du, Agreement ds, Log l) public{
         actors = du;
         dataSubject = ds;
         logs = l;
+        violatedActors = new bool[] (du.length);
     }
 }

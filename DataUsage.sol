@@ -40,5 +40,9 @@ contract DataUsage {
         return dataUsageEntries[actorId];
     }
 
+    function getDataUsageDetails() public view returns (DataUsageDetail[] memory details) {
+        return dataUsageEntries[myActorId];
+    }
+
 
 }
