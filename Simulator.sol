@@ -31,7 +31,7 @@ contract Simulator {
 
         u0 = gasleft();
         preset(1);
-        actorCount(1);
+        logAndValidation(1);
 
         //actorCount2();
         //actorCount3();
@@ -71,11 +71,11 @@ contract Simulator {
 
 
 
-    function actorCount(uint maxActor) private{
+    function logAndValidation(uint maxActor) private{
         for (uint i = 1; i <= maxActor; i++){
             bool consent = dataSubject.getAgreement(actorAddresses[actors[i-1].getDataUsageDetailByActorId(1)[0].actorId], actors[i-1].getDataUsageDetailByActorId(1)[0].purpose);
             if(consent) {
-                logs.setLog(i, "read", ["name", "address", "1", "2"], "test");
+                logs.setLog(i, actors[i-1].getDataUsageDetailByActorId(1)[0].operation, actors[i-1].getDataUsageDetailByActorId(1)[0].data, actors[i-1].getDataUsageDetailByActorId(1)[0].serviceName);
             }
         }
         //bool consent = dataSubject.getAgreement(0xd9145CCE52D386f254917e481eB44e9943F39138, "advertisement");
